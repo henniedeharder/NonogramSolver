@@ -1,0 +1,6 @@
+matplotlib
+jupyterlab
+opencv-python
+pytesseract
+scikit-image
+imutils

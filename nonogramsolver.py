@@ -21,9 +21,11 @@ class NonogramSolver:
         self.shape = (self.no_of_rows, self.no_of_cols)
         self.board = [[0 for c in range(self.no_of_cols)] for r in range(self.no_of_rows)]
 
+
+    def solve(self, sleep=None):
         # step 1: Defining all possible solutions for every row and col
-        self.rows_possibilities = self.create_possibilities(ROWS_VALUES, self.no_of_cols)
-        self.cols_possibilities = self.create_possibilities(COLS_VALUES, self.no_of_rows)
+        self.rows_possibilities = self.create_possibilities(self.ROWS_VALUES, self.no_of_cols)
+        self.cols_possibilities = self.create_possibilities(self.COLS_VALUES, self.no_of_rows)
 
         while not self.solved:
             # step 2: Order indici by lowest 
@@ -46,10 +48,11 @@ class NonogramSolver:
                             else: self.rows_possibilities[ri] = self.remove_possibilities(self.rows_possibilities[ri], ci, val)
                             clear_output(wait=True)
                             self.display_board()
-                            time.sleep(0.1)
+                            if sleep:
+                                time.sleep(sleep)
                     self.update_done(row_ind, ind1)
-            self.check_solved()
-                    
+            self.check_solved()                
+
 
     def create_possibilities(self, values, no_of_other):
         possibilities = []
@@ -117,3 +120,10 @@ class NonogramSolver:
     def check_solved(self):
         if 0 not in self.rows_done and 0 not in self.cols_done:
             self.solved = True
+
+
+if __name__ == "__main__":
+    ROWS_VALUES = [[2], [4], [6], [4, 3], [5, 4], [2, 3, 2], [3, 5], [5], [3], [2], [2], [6]]
+    COLS_VALUES = [[3], [5], [3, 2, 1], [5, 1, 1], [12], [3, 7], [4, 1, 1, 1], [3, 1, 1], [4], [2]]
+    nns = NonogramSolver(ROWS_VALUES, COLS_VALUES)
+    nns.solve(sleep=0.01)
